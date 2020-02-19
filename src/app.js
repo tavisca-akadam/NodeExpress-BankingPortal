@@ -9,10 +9,48 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+const accountData = fs.readFileSync('src/json/accounts.json', { encoding: 'UTF8' });
+const accounts = JSON.parse(accountData);
+
+console.log(accounts);
+
+const userData = fs.readFileSync('src/json/users.json', { encoding: 'UTF8' });
+const users = JSON.parse(userData);
+
+console.log(users);
 app.get('/', (req, res) => {
-    res.render('index', { title: 'index' });
+    res.render('index', {
+        title: 'Account Summary',
+        accounts: accounts
+    });
 });
 
+app.get('/savings', (req, res) => {
+    res.render('account', {
+        title: 'Account Summary',
+        account: accounts.savings
+    });
+});
+
+app.get('/checking', (req, res) => {
+    res.render('account', {
+        title: 'Account Summary',
+        account: accounts.checking
+    });
+});
+
+app.get('/credit', (req, res) => {
+    res.render('account', {
+        title: 'Account Summary',
+        account: accounts.credit
+    });
+});
+
+app.get('/profile', (req, res) => {
+    res.render('profile', {
+        user: users[0]
+    });
+});
 app.listen(3000, () => {
     console.log("listening .....");
 })
